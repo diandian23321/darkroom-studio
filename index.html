@@ -651,6 +651,20 @@ html.is-intro{overflow:hidden}
 .viewer-note{font-size:11.5px;line-height:1.6;color:var(--dim)}
 .viewer-dl{flex:none;width:auto;padding:0 22px;height:38px;text-decoration:none}
 
+/* ── 系统动效偏好（开场序列按用户要求始终播放，这里只关掉镜头与悬停位移） ── */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .hs{animation:none}
+  .hero.is-reveal .hero-inner h1,
+  .hero.is-reveal .hero-sub,
+  .hero.is-reveal .hero-foot{animation:none}
+  .card img{transition:none}
+  .card:hover img{transform:none}
+  .card .hit{transition:none}
+  .tile img{transition:none}
+  .tile:hover img{transform:none}
+}
+
 /* ── 断点 ── */
 @media (max-width:1100px){
   .tiles{columns:2}
@@ -723,6 +737,43 @@ html.is-intro{overflow:hidden}
   .rates td{padding:12px 8px 12px 0}
   .sum{padding:18px 16px}
   .sum-v{font-size:20px}
+}
+
+/* ── 小屏再收一档（≤420px） ── */
+@media (max-width:560px){
+  :root{--hd:auto}
+  .hdr{
+    height:auto;padding-block:11px;row-gap:4px;
+    grid-template-columns:1fr;grid-template-rows:auto auto;
+  }
+  .brand{justify-self:start}
+  .nav{grid-column:1/-1;justify-self:start;gap:18px;max-width:100%;overflow-x:auto;
+       scrollbar-width:none;-ms-overflow-style:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{font-size:13px;padding:5px 0;white-space:nowrap}
+  .hero{height:calc(100svh - 96px);min-height:520px}
+}
+@media (max-width:420px){
+  :root{--pad:17px}
+  .brand{font-size:12.5px;letter-spacing:.03em}
+  .nav{gap:9px}
+  .nav a{font-size:11.5px;padding:13px 0}
+  .hero{min-height:100svh}
+  .hero-inner{padding-bottom:clamp(84px,14vh,120px)}
+  .hero-inner h1{font-size:clamp(27px,8.6vw,33px);line-height:1.14}
+  .hero-sub{font-size:13px;max-width:none;line-height:1.8}
+  .sec-head h2{font-size:21px}
+  .sec-note{font-size:13.5px}
+  .card h3{font-size:16px}
+  .card .hit{font-size:12.5px}
+  .card .spec{font-size:11px}
+  .c-card .val{font-size:16px}
+  .est-price{font-size:20px}
+  .rates th,.rates td{font-size:11.5px}
+  .rates td .num{font-size:12.5px}
+  .sum-v{font-size:18px}
+  .pj-title{font-size:26px}
+  .hbars,.hsl{gap:4px}
 }
 </style>
 </head>
@@ -1378,7 +1429,7 @@ var TITLES = {
 function featuredHTML(f){
   var p = BY[f.c];
   return '<a class="card ' + f.cls + '" href="#/project/' + p.c + '">'
-    + '<img src="' + p.img + '" alt="' + p.t + ' · ' + p.k + '">'
+    + '<img src="' + p.img + '" alt="' + p.t + ' · ' + p.k + '" loading="lazy" decoding="async">'
     + '<div class="meta">'
     + '<span class="cat">' + p.kk + '</span>'
     + '<h3>' + p.t + '</h3>'
